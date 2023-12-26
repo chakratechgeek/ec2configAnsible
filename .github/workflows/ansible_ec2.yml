@@ -29,5 +29,5 @@ jobs:
       
       - name: Run Ansible playbook
         run: |
-          ansible-playbook -i "${{ secrets.SSH_HOST }}," -u ${{ secrets.ANSIBLE_DEPLOY_USER }} docker.yml
+          ansible-playbook -i "13.201.114.0" -u ${{ secrets.ANSIBLE_DEPLOY_USER }} docker.yml
 
