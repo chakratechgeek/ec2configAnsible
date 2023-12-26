@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           # Optional, literal inventory file contents
           # Optional, SSH known hosts file content
-          known_hosts: .known_hosts
+
           # Optional, encrypted vault password
           # Optional, additional flags to pass to ansible-playbook
           options: |
