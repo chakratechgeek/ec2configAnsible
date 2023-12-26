@@ -3,6 +3,7 @@
   hosts: ec2_instances
   become: yes  # Define become for the entire playbook if sudo privileges are required
   #This is comment add
+  #Dummy
 
   tasks:
     - name: Install Python and pip
