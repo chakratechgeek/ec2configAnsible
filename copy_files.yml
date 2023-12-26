@@ -2,6 +2,7 @@
 - name: Synchronize local folder to remote server
   hosts: ec2_instances
   become: yes  # Define become for the entire playbook if sudo privileges are required
+  #This is comment
 
   tasks:
     - name: Install Python and pip
