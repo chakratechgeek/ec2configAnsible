@@ -5,6 +5,17 @@
   gather_facts: true
 
   tasks:
+    - name: Remove the directory if it exists
+      file:
+        path: /root/django/app  # Replace with the directory path you want to remove
+        state: absent
+
+
+    - name: Create the directory if it exists
+      file:
+        path: /root/django/app  # Replace with the directory path you want to remove
+        state: directory 
+
 
     - name: Git pull the repository containing Django app
       become: true
@@ -13,8 +24,20 @@
         dest: /root/django/app  # Replace with the local path where the app should be cloned
         update: yes
 
+    - name: Grant 755 permissions to the shell script
+      file:
+        path: /root/django/app/user_data_script.sh  # Replace with the path to your shell script
+        mode: "0755"
+
+    - name: Create the Docker repository file
+      copy:
+        content: |
+          deb [arch=your_architecture] https://download.docker.com/linux/ubuntu your_ubuntu_codename stable
+        dest: /etc/apt/sources.list.d/docker.list
+
     - name: Run the shell script
-      script: /root/django/app/user_data_script.sh 
+      become: true
+      command: /root/django/app/user_data_script.sh 
 
     - name: Create a container/image
       become: true
