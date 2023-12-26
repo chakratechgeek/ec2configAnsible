@@ -28,7 +28,6 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
       
       - name: Run Ansible playbook
-        env:
         run: |
           ansible-playbook -i "${{ secrets.SSH_HOST }}," -u ${{ secrets.ANSIBLE_DEPLOY_USER }} docker.yml
 
