@@ -29,21 +29,10 @@
         path: /root/django/app/user_data_script.sh  # Replace with the path to your shell script
         mode: "0755"
 
-    - name: Create the Docker repository file
-      copy:
-        content: |
-          deb [arch=your_architecture] https://download.docker.com/linux/ubuntu your_ubuntu_codename stable
-        dest: /etc/apt/sources.list.d/docker.list
-
     - name: Run the shell script
       become: true
       command: /root/django/app/user_data_script.sh 
-
-    - name: Create a container/image
-      become: true
-      shell: |
-        cd /root/django/app  # Replace with the path to your Django app
-        docker build -t django_app .  # Replace your_image_name with your desired image name
+      ignore_errors: yes
 
     - name: Stop already running container
       become: true
@@ -53,30 +42,27 @@
 
     - name: Stop the container if it's running
       become: true
-      shell: |
-        docker stop "{{ running_container.stdout }}"  # Stops the container using the name fetched in the previous task
-      when: running_container.stdout != ""
+      shell: "docker rm -f django_app_container" 
+      when: running_container.stdout_lines | length > 0
 
+    - name: Check if Docker images exist
+      shell: "docker images -q"
+      register: docker_images
 
-    - name: Stop already running container
+    - name: Delete Docker images if they exist
+      shell: "docker rmi -f {{ item }}"
+      loop: "{{ docker_images.stdout_lines }}"
+      when: docker_images.stdout_lines | length > 0
+
+    - name: Create a container/image
       become: true
       shell: |
-        docker stop django_app_container  # Replace your_container_name with the name of the running container
+        cd /root/django/app  # Replace with the path to your Django app
+        docker build -t django_app .  # Replace your_image_name with your desired image name
 
-    - name: Check if old container exists
-      become: true
-      shell: |
-        docker ps -aqf "name=django_app_container"  # Replace your_container_name with the container name
-      register: old_container
-
-    - name: Remove old container if it exists
-      become: true
-      shell: |
-        docker rm -f "{{ old_container.stdout }}"  # Remove the old container if it exists
-      when: old_container.stdout != ""
 
     - name: Run newly created container
       become: true
       shell: |
-        docker run -d --name django_app_container -p 8000:8000 your_image_name  # Replace your_new_container_name with the desired container name and your_image_name with the image name
+        docker run -d --name django_app_container -p 8000:8000 django_app  # Replace your_new_container_name with the desired container name and your_image_name with the image name
 
