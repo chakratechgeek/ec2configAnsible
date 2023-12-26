@@ -29,5 +29,5 @@ jobs:
       
       - name: Run Ansible playbook
         run: |
-          ansible-playbook -i "13.201.114.0" -u "ubuntu" docker.yml
+          ansible-playbook -i hosts -u "ubuntu" docker.yml
 
