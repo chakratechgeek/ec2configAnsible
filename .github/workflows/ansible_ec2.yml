@@ -20,8 +20,8 @@ jobs:
         shell: bash
 
         run: |
-         sudo apt updte -y
-         sudo apt install -y ansible
+         sudo apt-get updte -y
+         sudo apt-get install -y ansible
          eval `ssh-agent -s`
          mkdir -p ~/.ssh/
          touch ~/.ssh/id_rsa
