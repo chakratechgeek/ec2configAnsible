@@ -21,6 +21,7 @@ jobs:
       run: |
         echo "${{ secrets.SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
+        chmod 644 ~/.ssh/known_hosts
     - name: Run Ansible Playbook
       run: |
         sudo apt update
