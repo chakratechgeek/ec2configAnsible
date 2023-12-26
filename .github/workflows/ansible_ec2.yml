@@ -12,6 +12,9 @@ jobs:
 
     - name: Add SSH key of the target host to known_hosts
       run: |
+        mkdir -p ~/.ssh/
+        touch  ~/.ssh/known_hosts
+
         ssh-keyscan -H 65.0.154.214 >> ~/.ssh/known_hosts
       
     - name: Setting up SSH key
