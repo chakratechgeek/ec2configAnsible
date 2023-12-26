@@ -1,40 +1,34 @@
-name: CI
+name: Deploy to EC2 with Ansible
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # Change this to your main branch name
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  run-playbooks:
+  deploy:
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v3
 
-      - name: Setup SSH 
-        shell: bash
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
+      - name: Install Python and dependencies
         run: |
-         eval `ssh-agent -s`
-         mkdir -p ~/.ssh/
-         touch ~/.ssh/id_rsa
-         echo -e "${{secrets.SSH_KEY}}" > ~/.ssh/id_rsa
-         chmod 644 ~/.ssh/id_rsa
-         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 65.0.154.214 >> /home/runner/.ssh/known_hosts
-
-      - name: Install Ansible
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install ansible
+      
+      - name: Configure SSH
         run: |
-          sudo apt update
-          sudo apt install -y ansible
-
-
-      - name: Run ansible script
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+      
+      - name: Run Ansible playbook
+        env:
         run: |
-          service ssh status
-          ansible-playbook -vvv --private-key ~/.ssh/id_rsa -i hosts docker.yml 
+          ansible-playbook -i "${{ secrets.SSH_HOST }}," -u ${{ secrets.ANSIBLE_DEPLOY_USER }} docker.yml
 
