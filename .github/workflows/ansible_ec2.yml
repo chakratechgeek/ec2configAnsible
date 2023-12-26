@@ -20,16 +20,20 @@ jobs:
         shell: bash
 
         run: |
-         sudo apt-get updte -y
-         sudo apt-get install -y ansible
          eval `ssh-agent -s`
          mkdir -p ~/.ssh/
          touch ~/.ssh/id_rsa
          echo -e "${{secrets.SSH_KEY}}" > ~/.ssh/id_rsa
          chmod 600 ~/.ssh/id_rsa
          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 65.0.154.214 >> /home/runner/.ssh/known_hosts
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+
       - name: Run ansible script
-        shell: bash 
         run: |
           service ssh status
           ansible-playbook -vvv --private-key ~/.ssh/id_rsa -i host docker.yml 
