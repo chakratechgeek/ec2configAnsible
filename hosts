@@ -1,3 +1,4 @@
 [ec2_instances]
 43.205.44.242 ansible_user=ubuntu
+#comment da PLC
 
