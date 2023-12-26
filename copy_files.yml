@@ -1,0 +1,33 @@
+---
+- name: Synchronize local folder to remote server
+  hosts: ec2_instances
+  become: yes  # Define become for the entire playbook if sudo privileges are required
+
+  tasks:
+    - name: Install Python and pip
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-pip
+        state: present
+
+    - name: Create directory on remote server
+      ansible.builtin.file:
+        path: /home/ubuntu/django
+        state: directory
+
+    - name: Synchronize folder to remote server
+      synchronize:
+        src: /root/MyGit/mywebpage/
+        dest: /home/ubuntu/django/
+        recursive: yes
+
+    - name: Check if pip is installed
+      ansible.builtin.command: "which pip3"
+      register: pip_check
+      ignore_errors: true
+
+    - name: Install Python packages if pip is not installed
+      ansible.builtin.command: "pip3 install -r /home/ubuntu/django/requirements.txt"
+      when: pip_check.rc != 0
+
