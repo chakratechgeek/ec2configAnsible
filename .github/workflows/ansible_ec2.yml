@@ -36,5 +36,5 @@ jobs:
       - name: Run ansible script
         run: |
           service ssh status
-          ansible-playbook -vvv --private-key ~/.ssh/id_rsa -i host docker.yml 
+          ansible-playbook -vvv --private-key ~/.ssh/id_rsa -i hosts docker.yml -u ${{secrets.ANSIBLE_DEPLOY_USER}} 
 
