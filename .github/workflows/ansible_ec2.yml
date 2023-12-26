@@ -20,6 +20,8 @@ jobs:
         shell: bash
 
         run: |
+         sudo apt updte -y
+         sudo apt install -y ansible
          eval `ssh-agent -s`
          mkdir -p ~/.ssh/
          touch ~/.ssh/id_rsa
@@ -30,7 +32,5 @@ jobs:
         shell: bash 
         run: |
           service ssh status
-          cd infrastructure/ansible
-          cat setup-prod.yml
           ansible-playbook -vvv --private-key ~/.ssh/id_rsa -i host docker.yml 
 
