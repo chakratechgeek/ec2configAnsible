@@ -20,14 +20,6 @@ jobs:
           sudo apt-get install -y python3-pip
           pip3 install ansible
 
-      - name: Setup SSH
-        env: 
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: env.SSH_KEY 
-
-      
       - name: Configure SSH
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
