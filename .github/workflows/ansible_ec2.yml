@@ -24,7 +24,7 @@ jobs:
          mkdir -p ~/.ssh/
          touch ~/.ssh/id_rsa
          echo -e "${{secrets.SSH_KEY}}" > ~/.ssh/id_rsa
-         chmod 600 ~/.ssh/id_rsa
+         chmod 644 ~/.ssh/id_rsa
          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 65.0.154.214 >> /home/runner/.ssh/known_hosts
 
       - name: Install Ansible
