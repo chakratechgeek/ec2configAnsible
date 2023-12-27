@@ -1,18 +1,14 @@
-name: Workflow 2
+name: 'workflow of Child REPO'
 
 on:
-  repository_dispatch:
-    types: [workflow_2_trigger]
+  workflow_dispatch:
+    
 
 jobs:
-  build:
+  trigger_workflow:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Your Workflow 2 Steps
-        # Define steps for Workflow 2 based on your requirements
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Install Python and dependencies
         run: |
