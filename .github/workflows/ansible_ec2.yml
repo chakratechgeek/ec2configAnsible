@@ -20,7 +20,9 @@ jobs:
       - name: Debug - List Directory Contents
         run: |
           pwd
-          ls -la /home/runner/work/ec2configAnsible/ec2configAnsible
+          ls -la /home/runner/work/ec2configAnsible
+          ls -la /home/runner/work/
+          ls -la /home/runner/work/ec2configAnsible/ec2configAnsible/docker.yml
       
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
