@@ -18,7 +18,7 @@ jobs:
       - name: Debug - List Directory Contents
         run: |
           pwd
-          ls -la
+          ls -la /home/runner/work/ec2configAnsible
       
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
