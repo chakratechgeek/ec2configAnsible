@@ -1,17 +1,12 @@
-name: Deploy to EC2 with Ansible
-
-on:
-  push:
-    branches:
-      - main  # Change this to your main branch name
-
+name: workflow_02
+on: [repository_dispatch]
 jobs:
-  deploy:
+  cypress-run:
     runs-on: ubuntu-latest
-    environment: prod
-
+    environment: production
     steps:
-      - name: Checkout code
+      - run: echo "Triggering Wokflow 2"
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install Python and dependencies
