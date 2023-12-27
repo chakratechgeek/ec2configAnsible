@@ -20,10 +20,11 @@ jobs:
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          # Required, playbook filepath
-          playbook: docker.yml
           # Optional, directory where playbooks live
           directory: ./
+          # Required, playbook filepath
+          playbook: docker.yml
+          
           # Optional, SSH private key
           key: ${{ secrets.SSH_KEY }}
           # Optional, literal inventory file contents
