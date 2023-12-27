@@ -17,6 +17,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-pip
           pip3 install ansible
+
+      - name: checlout
+        uses: actions/checkout@v3
+         
       - name: Debug - List Directory Contents
         run: |
           pwd
