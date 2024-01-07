@@ -1,2 +1,2 @@
 [ec2_instances]
-13.200.180.43 ansible_user=ubuntu
+3.110.31.175 ansible_user=ubuntu
